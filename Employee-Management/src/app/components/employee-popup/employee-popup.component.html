@@ -1,0 +1,48 @@
+<div class="popup-overlay">
+    <div class="popup-content">
+      <form [formGroup]="form" (ngSubmit)="save()">
+        <label>Name:</label>
+        <input type="text" formControlName="name" required>
+        <div *ngIf="form.controls['name'].invalid && form.controls['name'].touched">
+          <small *ngIf="form.controls['name'].hasError('pattern')">Name should only contain alphabets and spaces.</small>
+          <small *ngIf="form.controls['name'].hasError('required')">Name is required.</small>
+        </div>
+  
+        <label>Company:</label>
+        <input type="text" formControlName="company" required>
+        <div *ngIf="form.controls['company'].invalid && form.controls['company'].touched">
+          <small *ngIf="form.controls['company'].hasError('minlength')">Company name must be at least 5 characters long.</small>
+          <small *ngIf="form.controls['company'].hasError('pattern')">Company name should only contain alphabets.</small>
+          <small *ngIf="form.controls['company'].hasError('required')">Company name is required.</small>
+        </div>
+  
+        <label>Email:</label>
+        <input type="email" formControlName="email" required>
+        <div *ngIf="form.controls['email'].invalid && form.controls['email'].touched">
+          <small *ngIf="form.controls['email'].hasError('pattern')">Email should be in the format: name@domain.com</small>
+          <small *ngIf="form.controls['email'].hasError('required')">Email is required.</small>
+        </div>
+  
+        <label>Contact:</label>
+        <input type="text" formControlName="contact" required>
+        <div *ngIf="form.controls['contact'].invalid && form.controls['contact'].touched">
+          <small *ngIf="form.controls['contact'].hasError('pattern')">Contact should be a 10-digit number.</small>
+          <small *ngIf="form.controls['contact'].hasError('required')">Contact is required.</small>
+        </div>
+  
+        <label>Designation:</label>
+        <select formControlName="designation" required>
+          <option *ngFor="let designation of designations" [value]="designation">{{ designation }}</option>
+        </select>
+  
+        <label>Avatar:</label>
+        <div class="avatars">
+          <img *ngFor="let avatar of avatars" [src]="avatar" (click)="formData.profilePicture = avatar" [class.selected]="formData.profilePicture === avatar">
+        </div>
+  
+        <button type="submit" [disabled]="form.invalid">Save</button>
+        <button type="button" (click)="cancel()">Cancel</button>
+      </form>
+    </div>
+  </div>
+  

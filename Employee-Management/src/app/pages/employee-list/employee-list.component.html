@@ -1,0 +1,52 @@
+<div class="filters">
+    <label for="nameFilter">Filter by Name:</label>
+    <select id="nameFilter" [(ngModel)]="selectedName">
+      <option value="">All</option>
+      <option *ngFor="let name of uniqueNames" [value]="name">{{ name }}</option>
+    </select>
+  
+    <label for="companyFilter">Filter by Company:</label>
+    <select id="companyFilter" [(ngModel)]="selectedCompany">
+      <option value="">All</option>
+      <option *ngFor="let company of uniqueCompanies" [value]="company">{{ company }}</option>
+    </select>
+  
+    <label for="designationFilter">Filter by Designation:</label>
+    <select id="designationFilter" [(ngModel)]="selectedDesignation">
+      <option value="">All</option>
+      <option *ngFor="let designation of uniqueDesignations" [value]="designation">{{ designation }}</option>
+    </select>
+  
+    <label for="emailFilter">Filter by Email:</label>
+    <select id="emailFilter" [(ngModel)]="selectedEmail">
+      <option value="">All</option>
+      <option *ngFor="let email of uniqueEmails" [value]="email">{{ email }}</option>
+    </select>
+  
+    <input type="text" [(ngModel)]="searchText" placeholder="Search...">
+  </div>
+  
+  <div class="actions">
+    <button (click)="openAddPopup()">Add Employee</button>
+  </div>
+  
+  <div class="employee-cards">
+    <div *ngFor="let employee of employees | filter:searchText:selectedName:selectedCompany:selectedDesignation:selectedEmail; let i = index" class="card">
+      <img [src]="employee.profilePicture" alt="{{ employee.name }}">
+      <h2>{{ employee.name }}</h2>
+      <p>{{ employee.company }}</p>
+      <p>{{ employee.designation }}</p>
+      <button (click)="confirmDelete(i)">Delete</button>
+      <button (click)="openEditPopup(employee)">Edit</button>
+    </div>
+  </div>
+  
+  <app-employee-popup *ngIf="showPopup" [employee]="editEmployeeData" (close)="onPopupClose()"></app-employee-popup>
+
+  <app-popup *ngIf="showDeletePopup" (close)="onPopupClose()">
+    <div>
+      <p>{{ popupContent }}</p>
+      <button (click)="onDeleteConfirmed()">Confirm</button>
+      <button (click)="onPopupClose()">Cancel</button>
+    </div>
+  </app-popup>
